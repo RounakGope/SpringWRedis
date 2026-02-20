@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1")
 public class ProdController {
@@ -39,6 +41,15 @@ public class ProdController {
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
                 .body(productServ.getProduct(id));
+
+    }
+    @GetMapping("/get")
+    public ResponseEntity<List<Products>> get2()
+    {
+
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(productServ.getAll());
 
     }
     @DeleteMapping("/delete/{id}")

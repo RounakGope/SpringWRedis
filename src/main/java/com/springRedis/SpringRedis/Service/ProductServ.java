@@ -4,6 +4,9 @@ import com.springRedis.SpringRedis.dto.ProductDTO;
 import com.springRedis.SpringRedis.entity.Products;
 import com.springRedis.SpringRedis.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +17,7 @@ public class ProductServ {
     @Autowired
     private ProductRepo productRepo;
 
+    @CachePut(value = "product",key="#productDTO.id")
     public Products createProduct(ProductDTO productDTO)
     {
         Products products=new Products();
@@ -45,6 +49,7 @@ public class ProductServ {
         return products;
     }
 
+    @Cacheable(value = "product",key="#id")
     public Products getProduct(Long id)
     {
         Products products=productRepo.findById(id).orElseThrow(()->new RuntimeException("No Such product"));
@@ -52,6 +57,7 @@ public class ProductServ {
         return products;
     }
 
+    @CacheEvict(value = "product" , key = "#id")
     public void deleteProduct(Long id)
     {
 
